@@ -3,6 +3,46 @@
   "additionalProperties": false,
   "properties": {
     "finishers": {
+      "items": {
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "properties": {
+              "identifier": {
+                "not": {
+                  "enum": [
+                    "DeleteUploads"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "identifier",
+              "options"
+            ]
+          },
+          {
+            "properties": {
+              "identifier": {
+                "enum": [
+                  "DeleteUploads"
+                ]
+              }
+            },
+            "required": [
+              "identifier"
+            ]
+          }
+        ],
+        "properties": {
+          "identifier": {
+            "type": "string"
+          },
+          "options": {
+            "type": "object"
+          }
+        }
+      },
       "type": "array"
     },
     "identifier": {
@@ -14,17 +54,150 @@
     "prototypeName": {
       "oneOf": [
         {
-          "enum": ["standard"]
+          "enum": [
+            "standard"
+          ]
         }
       ]
     },
     "renderables": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "identifier": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "renderables": {
+            "items": {
+              "properties": {
+                "identifier": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "type": {
+                  "oneOf": [
+                    {
+                      "enum": [
+                        "Checkbox"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "DatePicker"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "Fieldset"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "FileUpload"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "GridRow"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "Hidden"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "MultiCheckbox"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "MultiSelect"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "Password"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "RadioButton"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "SingleSelect"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "Text"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "Textarea"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "renderingOptions": {
+            "additionalProperties": false,
+            "properties": {
+              "nextButtonLabel": {
+                "type": "string"
+              },
+              "previousButtonLabel": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": {
+            "oneOf": [
+              {
+                "enum": [
+                  "Page"
+                ]
+              },
+              {
+                "enum": [
+                  "SummaryPage"
+                ]
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
       "type": "array"
+    },
+    "renderingOptions": {
+      "properties": {
+        "submitButtonLabel": {
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "type": {
       "oneOf": [
         {
-          "enum": ["Form"]
+          "enum": [
+            "Form"
+          ]
         }
       ]
     }
@@ -33,5 +206,6 @@
     "identifier",
     "type",
     "prototypeName"
-  ]
+  ],
+  "type": "object"
 }

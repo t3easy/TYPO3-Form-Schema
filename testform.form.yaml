@@ -1,0 +1,281 @@
+
+renderingOptions:
+  submitButtonLabel: Submit
+type: Form
+identifier: testform
+label: 'Test form'
+prototypeName: standard
+finishers:
+  -
+    options:
+      subject: Hello
+      recipientAddress: a@b.c
+      recipientName: 'A. B.'
+      senderAddress: no-reply@foo.bar
+      senderName: 'Foo bar'
+      replyToAddress: mr.anderson@matrix.gov
+      carbonCopyAddress: neo@real.world
+      blindCarbonCopyAddress: morpheus@real.world
+      format: html
+      attachUploads: true
+    identifier: EmailToSender
+  -
+    options:
+      pageUid: '1'
+      additionalParameters: thx=1
+    identifier: Redirect
+  -
+    identifier: DeleteUploads
+  -
+    options:
+      message: 'Thanks for your message!'
+    identifier: Confirmation
+  -
+    options:
+      subject: 'Test form'
+      recipientAddress: info@another.domain
+      recipientName: Info
+      senderAddress: no-reply@foo.bar
+      senderName: 'Test form sender'
+      replyToAddress: ''
+      carbonCopyAddress: ''
+      blindCarbonCopyAddress: ''
+      format: html
+      attachUploads: true
+      translation:
+        language: ''
+    identifier: EmailToReceiver
+renderables:
+  -
+    renderingOptions:
+      previousButtonLabel: 'Previous step'
+      nextButtonLabel: 'Neue Seite'
+    type: Page
+    identifier: page-1
+    label: 'Page 1'
+    renderables:
+      -
+        defaultValue: 'Default value'
+        type: Text
+        identifier: text-1
+        label: Text
+        properties:
+          fluidAdditionalAttributes:
+            placeholder: Placeholder
+          elementDescription: 'Simple text field'
+      -
+        defaultValue: 'Default value'
+        type: Textarea
+        identifier: textarea-1
+        label: Textfeld
+        properties:
+          fluidAdditionalAttributes:
+            placeholder: Placeholder
+          elementDescription: 'Multiline text field'
+      -
+        defaultValue: ''
+        type: Password
+        identifier: password-1
+        label: Passwort
+        properties:
+          elementDescription: Password
+      -
+        type: Checkbox
+        identifier: checkbox-1
+        label: Checkbox
+        properties:
+          elementDescription: 'Yes or no'
+      -
+        properties:
+          options:
+            'Red pill': 'Red pill'
+            'Blue pill': 'Blue pill'
+          elementDescription: 'Select an option'
+          prependOptionLabel: 'please select'
+        type: SingleSelect
+        identifier: singleselect-1
+        label: 'Single select'
+      -
+        properties:
+          options:
+            1: '1'
+            2: '2'
+            a: a
+            b: b
+          elementDescription: ''
+        type: RadioButton
+        identifier: radiobutton-1
+        label: 'Radio button'
+        defaultValue: '1'
+      -
+        properties:
+          options:
+            a: a
+            b: b
+            1: '1'
+            2: '2'
+          elementDescription: ''
+        type: MultiCheckbox
+        identifier: multicheckbox-1
+        label: 'Multi checkbox'
+        defaultValue:
+          - a
+          - b
+      -
+        properties:
+          options:
+            1: '1'
+            2: '2'
+            3: '3'
+            a: a
+            b: b
+            c: c
+          elementDescription: ''
+          prependOptionLabel: 'please select one or more'
+        type: MultiSelect
+        identifier: multiselect-1
+        label: 'Multi select'
+      -
+        defaultValue: ''
+        type: Text
+        identifier: text-2
+        label: E-Mail
+        properties:
+          fluidAdditionalAttributes:
+            placeholder: a@b.c
+            required: required
+          elementDescription: 'Your mail'
+        validators:
+          -
+            identifier: EmailAddress
+          -
+            identifier: NotEmpty
+      -
+        defaultValue: ''
+        type: Text
+        identifier: text-3
+        label: 'Validate me 1'
+        properties:
+          fluidAdditionalAttributes:
+            minlength: '5'
+            maxlength: '10'
+          elementDescription: ''
+        validators:
+          -
+            identifier: Alphanumeric
+          -
+            identifier: Text
+          -
+            options:
+              minimum: '5'
+              maximum: '10'
+            identifier: StringLength
+      -
+        defaultValue: ''
+        type: Text
+        identifier: text-4
+        label: 'Validate me 2'
+        validators:
+          -
+            identifier: Integer
+          -
+            options:
+              minimum: '100'
+              maximum: '200'
+            identifier: NumberRange
+      -
+        defaultValue: ''
+        type: Text
+        identifier: text-5
+        label: 'Validate me 3'
+        validators:
+          -
+            identifier: Float
+      -
+        defaultValue: ''
+        type: Text
+        identifier: text-6
+        label: 'Validate me 4'
+        validators:
+          -
+            options:
+              regularExpression: '/^Hello world!$/'
+            identifier: RegularExpression
+  -
+    renderingOptions:
+      previousButtonLabel: 'Previous step'
+      nextButtonLabel: 'Neue Seite'
+    type: Page
+    identifier: page-2
+    label: 'Page 2'
+    renderables:
+      -
+        properties:
+          saveToFileMount: '1:/user_upload/'
+          allowedMimeTypes:
+            - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+            - application/pdf
+          elementDescription: ''
+        type: FileUpload
+        identifier: fileupload-1
+        label: 'File upload'
+      -
+        properties:
+          dateFormat: Y-m-d
+          enableDatePicker: true
+          displayTimeSelector: false
+          elementDescription: 'Date picker'
+        type: DatePicker
+        identifier: datepicker-1
+        label: 'Date picker'
+      -
+        defaultValue: 'Hidden value'
+        type: Hidden
+        identifier: hidden-1
+        label: Hidden
+      -
+        type: Fieldset
+        identifier: fieldset-1
+        label: Fieldset
+        renderables:
+          -
+            properties:
+              text: 'Lorem ipsum'
+            type: StaticText
+            identifier: statictext-1
+            label: 'Static text'
+          -
+            label: Inhaltselement
+            properties:
+              contentElementUid: '1'
+            type: ContentElement
+            identifier: contentelement-1
+      -
+        type: GridRow
+        identifier: gridrow-1
+        label: 'Grid Row'
+        renderables:
+          -
+            properties:
+              saveToFileMount: '1:/user_upload/'
+              allowedMimeTypes:
+                - image/jpeg
+              elementDescription: 'Image upload'
+            type: ImageUpload
+            identifier: imageupload-1
+            label: 'Image upload'
+          -
+            properties:
+              confirmationLabel: Confirmation
+              elementDescription: 'Advanced password '
+            type: AdvancedPassword
+            identifier: advancedpassword-1
+            label: 'Advanced password'
+  -
+    renderingOptions:
+      previousButtonLabel: 'Previous step'
+      nextButtonLabel: 'Neue Seite'
+    type: SummaryPage
+    identifier: summarypage-1
+    label: 'Summary page'
