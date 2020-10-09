@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "additionalProperties": false,
+  "properties": {
+    "finishers": {
+      "type": "array"
+    },
+    "identifier": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "prototypeName": {
+      "oneOf": [
+        {
+          "enum": ["standard"]
+        }
+      ]
+    },
+    "renderables": {
+      "type": "array"
+    },
+    "type": {
+      "oneOf": [
+        {
+          "enum": ["Form"]
+        }
+      ]
+    }
+  },
+  "required": [
+    "identifier",
+    "type",
+    "prototypeName"
+  ]
+}
