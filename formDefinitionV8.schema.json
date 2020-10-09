@@ -1,47 +1,392 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "additionalProperties": false,
-  "properties": {
-    "finishers": {
-      "items": {
-        "additionalProperties": false,
-        "oneOf": [
-          {
-            "properties": {
-              "identifier": {
-                "not": {
-                  "enum": [
-                    "DeleteUploads"
+  "definitions": {
+    "confirmationFinisher": {
+      "additionalProperties": false,
+      "properties": {
+        "identifier": {
+          "enum": [
+            "Confirmation"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "additionalProperties": false,
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "message"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "identifier",
+        "options"
+      ],
+      "type": "object"
+    },
+    "databaseFinisher": {
+      "additionalProperties": false,
+      "properties": {
+        "identifier": {
+          "enum": [
+            "SaveToDatabase"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "$ref": "#/definitions/databaseFinisherOptions",
+          "patternProperties": {
+            "^[0-9]*$": {
+              "$ref": "#/definitions/databaseFinisherOptions"
+            }
+          }
+        }
+      },
+      "required": [
+        "identifier",
+        "options"
+      ],
+      "type": "object"
+    },
+    "databaseFinisherOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "databaseColumnMappings": {
+          "patternProperties": {
+            "^[a-z][a-z_]*[a-z]$": {
+              "additionalProperties": false,
+              "properties": {
+                "skipIfValueIsEmpty": {
+                  "type": "boolean"
+                },
+                "value": {
+                  "type": [
+                    "string",
+                    "integer"
                   ]
                 }
-              }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "elements": {
+          "patternProperties": {
+            "^[a-z][a-zA-Z-]*[a-z]$": {
+              "additionalProperties": false,
+              "properties": {
+                "mapOnDatabaseColumn": {
+                  "type": "string"
+                },
+                "saveFileIdentifierInsteadOfUid": {
+                  "type": "boolean"
+                },
+                "skipIfValueIsEmpty": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "mapOnDatabaseColumn"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "mode": {
+          "enum": [
+            "insert",
+            "update"
+          ],
+          "type": "string"
+        },
+        "table": {
+          "pattern": "^[a-z][a-z_]*[a-z]$",
+          "type": "string"
+        },
+        "whereClause": {
+          "patternProperties": {
+            "^[a-z][a-z_]*[a-z]$": {
+              "type": [
+                "string",
+                "integer"
+              ]
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "deleteUploadsFinisher": {
+      "additionalProperties": false,
+      "properties": {
+        "identifier": {
+          "enum": [
+            "DeleteUploads"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "identifier"
+      ],
+      "type": "object"
+    },
+    "emailFinisher": {
+      "additionalProperties": false,
+      "properties": {
+        "identifier": {
+          "enum": [
+            "EmailToReceiver",
+            "EmailToSender"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "additionalProperties": false,
+          "properties": {
+            "attachUploads": {
+              "type": "boolean"
             },
-            "required": [
-              "identifier",
-              "options"
+            "blindCarbonCopyAddress": {
+              "type": "string"
+            },
+            "carbonCopyAddress": {
+              "type": "string"
+            },
+            "format": {
+              "enum": [
+                "html",
+                "plaintext"
+              ],
+              "type": "string"
+            },
+            "recipientAddress": {
+              "type": "string"
+            },
+            "recipientName": {
+              "type": "string"
+            },
+            "replyToAddress": {
+              "type": "string"
+            },
+            "senderAddress": {
+              "type": "string"
+            },
+            "senderName": {
+              "type": "string"
+            },
+            "subject": {
+              "type": "string"
+            },
+            "translation": {
+              "additionalProperties": false,
+              "properties": {
+                "language": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "identifier",
+        "options"
+      ],
+      "type": "object"
+    },
+    "formFields": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "defaultValue": {
+            "type": [
+              "string",
+              "array"
             ]
           },
-          {
-            "properties": {
-              "identifier": {
-                "enum": [
-                  "DeleteUploads"
-                ]
-              }
-            },
-            "required": [
-              "identifier"
-            ]
-          }
-        ],
-        "properties": {
           "identifier": {
             "type": "string"
           },
-          "options": {
+          "label": {
+            "type": "string"
+          },
+          "properties": {
+            "additionalProperties": false,
+            "properties": {
+              "allowedMimeTypes": {
+                "type": "array"
+              },
+              "confirmationLabel": {
+                "type": "string"
+              },
+              "contentElementUid": {
+                "type": [
+                  "integer",
+                  "string"
+                ]
+              },
+              "dateFormat": {
+                "type": "string"
+              },
+              "displayTimeSelector": {
+                "type": "boolean"
+              },
+              "elementDescription": {
+                "type": "string"
+              },
+              "enableDatePicker": {
+                "type": "boolean"
+              },
+              "fluidAdditionalAttributes": {
+                "additionalProperties": false,
+                "properties": {
+                  "maxlength": {
+                    "type": [
+                      "integer",
+                      "string"
+                    ]
+                  },
+                  "minlength": {
+                    "type": [
+                      "integer",
+                      "string"
+                    ]
+                  },
+                  "placeholder": {
+                    "type": "string"
+                  },
+                  "required": {
+                    "oneOf": [
+                      {
+                        "enum": [
+                          "required"
+                        ]
+                      }
+                    ],
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "options": {
+                "type": "object"
+              },
+              "prependOptionLabel": {
+                "type": "string"
+              },
+              "saveToFileMount": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
             "type": "object"
+          },
+          "renderables": {
+            "$ref": "#/definitions/formFields"
+          },
+          "type": {
+            "oneOf": [
+              {
+                "enum": [
+                  "AdvancedPassword",
+                  "Checkbox",
+                  "ContentElement",
+                  "DatePicker",
+                  "Fieldset",
+                  "FileUpload",
+                  "GridRow",
+                  "Hidden",
+                  "ImageUpload",
+                  "MultiCheckbox",
+                  "MultiSelect",
+                  "Password",
+                  "RadioButton",
+                  "StaticText",
+                  "SingleSelect",
+                  "Text",
+                  "Textarea"
+                ]
+              }
+            ],
+            "type": "string"
+          },
+          "validators": {
+            "type": "array"
           }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "redirectFinisher": {
+      "additionalProperties": false,
+      "properties": {
+        "identifier": {
+          "enum": [
+            "Redirect"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "additionalProperties": false,
+          "properties": {
+            "additionalParameters": {
+              "type": "string"
+            },
+            "pageUid": {
+              "type": [
+                "integer",
+                "string"
+              ]
+            }
+          },
+          "required": [
+            "pageUid"
+          ],
+          "type": "object"
         }
+      },
+      "required": [
+        "identifier",
+        "options"
+      ],
+      "type": "object"
+    }
+  },
+  "properties": {
+    "finishers": {
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/definitions/confirmationFinisher"
+          },
+          {
+            "$ref": "#/definitions/databaseFinisher"
+          },
+          {
+            "$ref": "#/definitions/deleteUploadsFinisher"
+          },
+          {
+            "$ref": "#/definitions/emailFinisher"
+          },
+          {
+            "$ref": "#/definitions/redirectFinisher"
+          }
+        ]
       },
       "type": "array"
     },
@@ -58,7 +403,8 @@
             "standard"
           ]
         }
-      ]
+      ],
+      "type": "string"
     },
     "renderables": {
       "items": {
@@ -71,87 +417,7 @@
             "type": "string"
           },
           "renderables": {
-            "items": {
-              "properties": {
-                "identifier": {
-                  "type": "string"
-                },
-                "label": {
-                  "type": "string"
-                },
-                "type": {
-                  "oneOf": [
-                    {
-                      "enum": [
-                        "Checkbox"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "DatePicker"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "Fieldset"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "FileUpload"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "GridRow"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "Hidden"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "MultiCheckbox"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "MultiSelect"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "Password"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "RadioButton"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "SingleSelect"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "Text"
-                      ]
-                    },
-                    {
-                      "enum": [
-                        "Textarea"
-                      ]
-                    }
-                  ]
-                }
-              },
-              "type": "object"
-            },
-            "type": "array"
+            "$ref": "#/definitions/formFields"
           },
           "renderingOptions": {
             "additionalProperties": false,
@@ -177,7 +443,8 @@
                   "SummaryPage"
                 ]
               }
-            ]
+            ],
+            "type": "string"
           }
         },
         "type": "object"
@@ -185,6 +452,7 @@
       "type": "array"
     },
     "renderingOptions": {
+      "additionalProperties": false,
       "properties": {
         "submitButtonLabel": {
           "type": "string"
@@ -199,7 +467,8 @@
             "Form"
           ]
         }
-      ]
+      ],
+      "type": "string"
     }
   },
   "required": [

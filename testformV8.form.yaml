@@ -2,7 +2,7 @@
 renderingOptions:
   submitButtonLabel: Submit
 type: Form
-identifier: testform
+identifier: testformV8
 label: 'Test form'
 prototypeName: standard
 finishers:
@@ -40,11 +40,73 @@ finishers:
       replyToAddress: ''
       carbonCopyAddress: ''
       blindCarbonCopyAddress: ''
-      format: html
+      format: plaintext
       attachUploads: true
       translation:
         language: ''
     identifier: EmailToReceiver
+  - identifier: SaveToDatabase
+    options:
+      table: 'tt_address'
+      mode: 'insert'
+      databaseColumnMappings:
+        pid:
+          value: 123
+        tstamp:
+          value: '{__currentTimestamp}'
+        crdate:
+          value: '{__currentTimestamp}'
+      elements:
+        company:
+          mapOnDatabaseColumn: 'company'
+        firstName:
+          mapOnDatabaseColumn: 'first_name'
+        lastName:
+          mapOnDatabaseColumn: 'last_name'
+        email:
+          mapOnDatabaseColumn: 'email'
+  - identifier: SaveToDatabase
+    options:
+      table: 'tt_address'
+      mode: 'update'
+      whereClause:
+        integer: 1
+        string: 'hello'
+      databaseColumnMappings:
+        pid:
+          value: 123
+        tstamp:
+          value: '{__currentTimestamp}'
+        crdate:
+          value: '{__currentTimestamp}'
+        empty:
+          value: ''
+          skipIfValueIsEmpty: true
+      elements:
+        name:
+          mapOnDatabaseColumn: name
+        password:
+          mapOnDatabaseColumn: password
+          skipIfValueIsEmpty: true
+        file:
+          mapOnDatabaseColumn: file
+          saveFileIdentifierInsteadOfUid: false
+  - identifier: SaveToDatabase
+    options:
+      0:
+        table: 'my_table'
+        mode: insert
+        databaseColumnMappings:
+          some_column:
+            value: 'cool'
+      11:
+        table: 'my_other_table'
+        mode: update
+        whereClause:
+          pid: 1
+        databaseColumnMappings:
+          some_other_column:
+            value: '{SaveToDatabase.insertedUids.1}'
 renderables:
   -
     renderingOptions:
